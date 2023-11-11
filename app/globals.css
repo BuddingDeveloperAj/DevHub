@@ -3,10 +3,6 @@
 @tailwind utilities;
 @import url("../styles/theme.css");
 
-* {
-  background-color: black;
-}
-
 body {
   font-family: "Inter", sans-serif;
 }
