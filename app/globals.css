@@ -8,6 +8,24 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+.resize-x {
+  resize: horizontal;
+}
+
+.resize-x:hover {
+  cursor: ew-resize;
+}
+
+.resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px; /* Adjust width as needed */
+  cursor: ew-resize;
+  background: transparent; /* Make the handle visible */
+}
+
 @layer utilities {
   .flex-center {
     @apply flex justify-center items-center;

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Theme from "./Theme";
 import MobileNav from "./MobileNav";
-import GlobalSearch from "../search/GlobalSearch";
+import GlobalSearchbar from "../search/GlobalSearchbar";
 
 const Navbar = () => {
   return (
@@ -16,11 +16,11 @@ const Navbar = () => {
           height={30}
           alt="DevHub"
         ></Image>
-        <p className=" px-2 text-dark-100 dark:text-light-900 max-sm:hidden">
-          Dev <span className="text-primary-500">Hub</span>
+        <p className=" h1-bold px-2 text-dark-100 dark:text-light-900 max-sm:hidden">
+          Dev<span className="text-primary-500">Hub</span>
         </p>
       </Link>
-      <GlobalSearch />
+      <GlobalSearchbar />
       <div className="flex-between gap-5">
         <Theme />
         <SignedIn>
@@ -36,8 +36,8 @@ const Navbar = () => {
             }}
           />
         </SignedIn>
+        <MobileNav />
       </div>
-      <MobileNav />
     </nav>
   );
 };

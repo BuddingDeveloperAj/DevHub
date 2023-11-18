@@ -75,7 +75,7 @@ const MobileNav = () => {
             alt="DevHub"
           />
           <p className="h2-bold text-dark100_light900 pl-2">
-            Dev <span className="text-primary-500">Hub</span>
+            Dev<span className="text-primary-500">Hub</span>
           </p>
         </Link>
         <div>
