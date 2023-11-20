@@ -5,25 +5,25 @@ import RenderTag from "../Badge";
 
 const topQuestions = [
   {
-    _id: 1,
+    _id: "1",
     question: "How do I implement authentication in my React app?",
   },
   {
-    _id: 2,
+    _id: "2",
     question:
       "What are the best practices for deploying a Node.js application?",
   },
   {
-    _id: 3,
+    _id: "3",
     question:
       "How can I optimize performance in a large-scale React application?",
   },
   {
-    _id: 4,
+    _id: "4",
     question: "How do I implement authentication in my React app?",
   },
   {
-    _id: 5,
+    _id: "5",
     question:
       "What are the best practices for deploying a Node.js application?",
   },
@@ -31,27 +31,27 @@ const topQuestions = [
 
 const popularTags = [
   {
-    _id: 1,
+    _id: "1",
     name: "JavaScript",
     totalQuestions: 12,
   },
   {
-    _id: 2,
+    _id: "2",
     name: "Python",
     totalQuestions: 8,
   },
   {
-    _id: 3,
+    _id: "3",
     name: "HTML",
     totalQuestions: 6,
   },
   {
-    _id: 4,
+    _id: "4",
     name: "CSS",
     totalQuestions: 7,
   },
   {
-    _id: 5,
+    _id: "5",
     name: "Node.js",
     totalQuestions: 9,
   },

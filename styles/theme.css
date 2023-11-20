@@ -35,6 +35,9 @@
     @apply bg-light-800 dark:bg-dark-400;
   }
 
+  .background-light800_dark300_with_hover {
+    @apply bg-light-800 dark:bg-dark-300 hover:bg-orange-100 dark:hover:bg-gray-800 !important;
+  }
   .background-light800_dark300 {
     @apply bg-light-800 dark:bg-dark-300 !important;
   }

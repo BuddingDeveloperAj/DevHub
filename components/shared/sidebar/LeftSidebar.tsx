@@ -51,7 +51,7 @@ const LeftSidebar = () => {
       </div>
       <SignedOut>
         <div className="flex flex-col gap-3">
-          <Link href="/sign-in" className="mt-6">
+          <Link href="/sign-in" className="mt-6" title="sign In">
             <Button className="small-medium btn-secondary light-border min-h-[41px] w-full rounded-lg px-4 py-3 text-primary-500 shadow-none">
               <Image
                 src="/assets/icons/account.svg"
@@ -65,7 +65,7 @@ const LeftSidebar = () => {
               </span>
             </Button>
           </Link>
-          <Link href="/sign-up">
+          <Link href="/sign-up" title="sign Up">
             <Button className="small-medium btn-tertiary light-border-2 text-dark400_light900 min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
               <Image
                 src="/assets/icons/sign-up.svg"
