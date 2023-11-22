@@ -3,6 +3,7 @@ export default authMiddleware({
   // "/" will be accessible to all users
   publicRoutes: [
     "/",
+    "/api/webhook",
     "/ask-question",
     "/question/:id",
     "/tags",
