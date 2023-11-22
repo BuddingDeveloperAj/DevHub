@@ -9,8 +9,8 @@ import QuestionCard from "@/components/shared/cards/QuestionCard";
 import { getQuestions } from "@/lib/actions/question.action";
 
 export default async function Home() {
-  const result = await getQuestions({});
-  const questions = result?.questions ?? [];
+  await getQuestions({});
+  const questions = []!;
 
   return (
     <>
