@@ -16,7 +16,7 @@ export const questionSchema = z.object({
       "Hey, expand on that! The description needs more words than a fortune cookie.",
   }),
   tags: z
-    .array(z.string().min(2).max(5))
+    .array(z.string())
     .min(1, {
       message: "One tag at least, please! It gets lonely without any tags.",
     })
