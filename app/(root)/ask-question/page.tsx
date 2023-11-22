@@ -8,7 +8,8 @@ import React from "react";
 const page = async () => {
   const clerkId = "123456";
 
-  const user = await getUserDetails(clerkId);
+  const user = await getUserDetails({ userId: clerkId });
+
   if (!user) {
     redirect("/sign-in");
   }

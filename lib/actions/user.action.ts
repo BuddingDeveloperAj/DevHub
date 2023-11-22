@@ -13,7 +13,6 @@ export const getUserDetails = async (params: any) => {
     await connectToDatabase();
 
     const { userId } = params;
-
     const user = await User.findOne({
       clerkId: userId,
     });
