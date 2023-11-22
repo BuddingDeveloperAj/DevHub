@@ -2,11 +2,13 @@
 
 import Question from "@/components/forms/Question";
 import { getUserDetails } from "@/lib/actions/user.action";
+import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const page = async () => {
-  const clerkId = "123456";
+  const authUser = auth();
+  const clerkId = authUser.userId;
 
   const user = await getUserDetails({ userId: clerkId });
 
