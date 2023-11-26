@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("../styles/theme.css");
+@import url("../styles/prism.css");
 
 body {
   font-family: "Inter", sans-serif;

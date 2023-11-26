@@ -3,7 +3,7 @@ import { model, models, Document, Schema } from "mongoose";
 export interface ITag extends Document {
   name: string;
   description: string;
-  question: Schema.Types.ObjectId[];
+  questions: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];
   createdOn: Date;
 }
@@ -11,7 +11,7 @@ export interface ITag extends Document {
 const TagSchema = new Schema({
   name: { type: String, required: true, unique: true },
   description: { type: String, required: true },
-  question: [{ type: Schema.Types.ObjectId, ref: "Question" }],
+  questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
   followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   createdOn: { type: Schema.Types.Date, default: Date.now },
 });

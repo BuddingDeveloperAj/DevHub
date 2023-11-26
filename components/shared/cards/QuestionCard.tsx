@@ -60,21 +60,21 @@ const QuestionCard = ({
           textStyles="body-medium text-dark400_light800"
         />
         <Metric
-          imgUrl="assets/icons/like.svg"
+          imgUrl="/assets/icons/like.svg"
           alt="Upvotes"
           value={formatNumber(upvotes)}
           title=" Votes"
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
-          imgUrl="assets/icons/message.svg"
+          imgUrl="/assets/icons/message.svg"
           alt="message"
           value={formatNumber(answers.length)}
           title=" Answers"
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
-          imgUrl="assets/icons/eye.svg"
+          imgUrl="/assets/icons/eye.svg"
           alt="Views"
           value={formatNumber(views)}
           title=" Views"

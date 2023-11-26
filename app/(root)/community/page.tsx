@@ -4,6 +4,7 @@ import React from "react";
 import Filter from "@/components/shared/Filter";
 import { getAllUsers } from "@/lib/actions/user.action";
 import Link from "next/link";
+import UserCard from "@/components/shared/cards/UserCard";
 
 const Community = async () => {
   const result = (await getAllUsers({})) ?? { users: [] };
@@ -24,9 +25,9 @@ const Community = async () => {
           otherClasses="min-h-[56px] sm:min-w-[170px]"
         />
       </div>
-      <section className="mt-12 flex flex-wrap gap-3">
-        {result.users.length < 0 ? (
-          result.users.map((user) => <div key={user._id}>{user.name}</div>)
+      <section className="mt-12 flex flex-wrap justify-evenly gap-3">
+        {result.users.length > 0 ? (
+          result.users.map((user) => <UserCard key={user._id} user={user} />)
         ) : (
           <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center">
             <p className="mb-4 mt-2 font-bold">No Soldires Yet 🪖</p>

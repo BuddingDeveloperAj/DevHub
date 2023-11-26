@@ -24,3 +24,7 @@ export const questionSchema = z.object({
       message: "Easy there! Three tags are enough to describe the universe.",
     }),
 });
+
+export const answerSchema = z.object({
+  answer: z.string().min(1),
+});

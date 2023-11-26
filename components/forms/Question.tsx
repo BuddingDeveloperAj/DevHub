@@ -1,7 +1,7 @@
 "use client";
 
 import { Editor } from "@tinymce/tinymce-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,6 +21,7 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
+import { useTheme } from "@/context/ThemeProvider";
 
 const type: string = "edit";
 
@@ -38,6 +39,25 @@ const Question = ({ user }: { user: string }) => {
       tags: [],
     },
   });
+
+  const [editorKey, setEditorKey] = useState(0);
+  const [editorContent, setEditorContent] = useState("");
+
+  const toggleMode = () => {
+    setEditorKey((prevKey) => prevKey + 1); // Increment key to force re-render
+  };
+
+  // Update editor content when it changes
+  const handleEditorChange = (content: string) => {
+    setEditorContent(content);
+  };
+
+  const { mode } = useTheme();
+  useEffect(() => {
+    handleEditorChange(form.getValues("explanation"));
+    toggleMode();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
 
   async function onSubmit(values: z.infer<typeof questionSchema>) {
     try {
@@ -146,6 +166,7 @@ const Question = ({ user }: { user: string }) => {
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Editor
+                  key={editorKey}
                   apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                   // @ts-ignore
                   onInit={(evt, editor) => (editorRef.current = editor)}
@@ -158,10 +179,14 @@ const Question = ({ user }: { user: string }) => {
                     content_style:
                       "body { font-size:16px; font-family:Inter; } ",
                     placeholder: "Elaborate your question here.",
+                    skin: mode === "dark" ? "oxide-dark" : "oxide",
+                    content_css: mode === "dark" ? "dark" : "light",
                   }}
-                  initialValue=""
+                  initialValue={editorContent}
                   onBlur={field.onBlur}
-                  onEditorChange={(content) => field.onChange(content)}
+                  onEditorChange={(content) => {
+                    field.onChange(content);
+                  }}
                 />
               </FormControl>
               <FormMessage className="text-red-500" />
