@@ -10,6 +10,7 @@ import Answer from "@/components/forms/Answer";
 import { SignedIn, auth } from "@clerk/nextjs";
 import { getUserDetails } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers";
+import Votes from "@/components/shared/Votes";
 
 const page = async ({ params }: any) => {
   const result = await getQuestionById({ questionId: params.id });
@@ -18,6 +19,7 @@ const page = async ({ params }: any) => {
 
   if (clerkId) {
     user = await getUserDetails({ userId: clerkId });
+    console.log(user);
   }
 
   return (
@@ -39,7 +41,16 @@ const page = async ({ params }: any) => {
               {result.author.name}
             </p>
           </Link>
-          <div className="flex justify-end">VOTING</div>
+          <Votes
+            type="question"
+            itemId={JSON.stringify(result._id)}
+            userId={JSON.stringify(user._id)}
+            upvotes={result.upvotes.length}
+            hasUpvoted={result.upvotes.includes(user._id)}
+            downvotes={result.downvotes.length}
+            hasDownvoted={result.downvotes.includes(user._id)}
+            hasSaved={user.saved.includes(result._id)}
+          />
         </div>
         <h1 className="h2-semibold text-dark200_light900 mt-3.5 self-start">
           {result?.title}

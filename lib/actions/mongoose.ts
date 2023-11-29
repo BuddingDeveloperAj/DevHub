@@ -11,6 +11,8 @@ export const connectToDatabase = async () => {
     return console.log("MongoDB is already connected");
   }
 
+  console.log(mongoose.models, "here");
+
   try {
     await mongoose.connect(process.env.MONGODB_URL, {
       dbName: "devhub",
