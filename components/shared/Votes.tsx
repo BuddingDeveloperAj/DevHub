@@ -34,13 +34,17 @@ const Votes = ({
 }: Props) => {
   const pathname = usePathname();
 
-  // const handleSave = async () => {
-  //   await toggleSaveQuestion({
-  //     userId: JSON.parse(userId),
-  //     questionId: JSON.parse(itemId),
-  //     path: pathname,
-  //   });
-  // };
+  const handleSave = async () => {
+    if (!userId) {
+      return;
+    }
+
+    await toggleSaveQuestion({
+      userId,
+      questionId: itemId,
+      path: pathname,
+    });
+  };
 
   const handleVote = async (action: string) => {
     if (!userId) {
@@ -50,38 +54,36 @@ const Votes = ({
     if (action === "upvote") {
       if (type === "question") {
         await upvoteQuestion({
-          questionId: JSON.parse(itemId),
-          userId: JSON.parse(userId),
+          questionId: itemId,
+          userId: userId,
           hasUpvoted,
           hasDownvoted,
           path: pathname,
         });
       } else if (type === "answer") {
         await upvoteAnswer({
-          answerId: JSON.parse(itemId),
-          userId: JSON.parse(userId),
+          answerId: itemId,
+          userId: userId,
           hasUpvoted,
           hasDownvoted,
           path: pathname,
         });
       }
-
-      return;
     }
 
     if (action === "downvote") {
       if (type === "question") {
         await downvoteQuestion({
-          questionId: JSON.parse(itemId),
-          userId: JSON.parse(userId),
+          questionId: itemId,
+          userId: userId,
           hasUpvoted,
           hasDownvoted,
           path: pathname,
         });
       } else if (type === "answer") {
         await downvoteAnswer({
-          answerId: JSON.parse(itemId),
-          userId: JSON.parse(userId),
+          answerId: itemId,
+          userId: userId,
           hasUpvoted,
           hasDownvoted,
           path: pathname,
@@ -147,7 +149,9 @@ const Votes = ({
           height={18}
           alt="saved"
           className="cursor-pointer"
-          onClick={() => handleSave()}
+          onClick={() => {
+            handleSave();
+          }}
         />
       )}
     </div>

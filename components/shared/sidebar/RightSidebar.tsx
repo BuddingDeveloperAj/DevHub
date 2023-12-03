@@ -90,7 +90,7 @@ const RightSidebar = () => {
           })}
         </div>
       </div>
-      <div className="mt-16">
+      <div className="mt-10">
         <p className="h2-bold text-dark300_light900">Popular Tags</p>
         <div className="mt-2 flex flex-row flex-wrap gap-2">
           {popularTags.map((item) => {

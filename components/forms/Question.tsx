@@ -66,7 +66,7 @@ const Question = ({ user }: { user: string }) => {
         title: values.title,
         content: values.explanation,
         tags: values.tags,
-        author: JSON.parse(user),
+        author: user,
         path: pathname,
       });
 

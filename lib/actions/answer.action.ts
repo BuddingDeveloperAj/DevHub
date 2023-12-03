@@ -1,32 +1,21 @@
 "use server";
 
-import Answer from "@/database/answer.model";
-import { connectToDatabase } from "./mongoose";
 import {
   AnswerVoteParams,
   CreateAnswerParams,
   GetAnswersParams,
 } from "./shared.types";
-import Question from "@/database/question.model";
+import { requestHandler } from "../requestHandler";
 import { revalidatePath } from "next/cache";
 
 export const createAnswer = async (params: CreateAnswerParams) => {
   try {
-    await connectToDatabase();
-    const { content, author, question, path } = params;
-
-    const newAnwer = await Answer.create({
-      content,
-      author,
-      question,
+    const { path, ...rest } = params;
+    const newAnswer = await requestHandler({
+      url: "/answers",
+      method: "post",
+      payload: rest,
     });
-
-    await Question.findByIdAndUpdate(question, {
-      $push: { answers: newAnwer._id },
-    });
-
-    // TODO: to add reputation
-
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -35,13 +24,12 @@ export const createAnswer = async (params: CreateAnswerParams) => {
 
 export const getAnswers = async (params: GetAnswersParams) => {
   try {
-    await connectToDatabase();
+    const response = await requestHandler({
+      url: `/answers/${params.questionId}`,
+      method: "get",
+    });
 
-    const answers = await Answer.find({ question: params.questionId })
-      .populate("author", "_id clerkId name picture")
-      .sort({ createdAt: -1 });
-
-    return { answers };
+    return response.data.data;
   } catch (error) {
     console.log(error);
   }
@@ -49,31 +37,13 @@ export const getAnswers = async (params: GetAnswersParams) => {
 
 export async function upvoteAnswer(params: AnswerVoteParams) {
   try {
-    await connectToDatabase();
+    const { answerId, path, ...rest } = params;
 
-    const { answerId, userId, hasDownvoted, hasUpvoted, path } = params;
-
-    let updateQuery = {};
-
-    if (hasUpvoted) {
-      updateQuery = { $pull: { upvotes: userId } };
-    } else if (hasDownvoted) {
-      updateQuery = {
-        $pull: { downvotes: userId },
-        $push: { upvotes: userId },
-      };
-    } else {
-      updateQuery = { $addToSet: { upvotes: userId } };
-    }
-
-    const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, {
-      new: true,
+    await requestHandler({
+      url: `/answers/${answerId}/upvote`,
+      method: "put",
+      payload: rest,
     });
-
-    if (!answer) {
-      throw new Error("Answer not found");
-    }
-
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -82,31 +52,13 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
 
 export async function downvoteAnswer(params: AnswerVoteParams) {
   try {
-    await connectToDatabase();
+    const { answerId, path, ...rest } = params;
 
-    const { answerId, userId, hasDownvoted, hasUpvoted, path } = params;
-
-    let updateQuery = {};
-
-    if (hasDownvoted) {
-      updateQuery = { $pull: { downvotes: userId } };
-    } else if (hasUpvoted) {
-      updateQuery = {
-        $pull: { upvotes: userId },
-        $push: { downvotes: userId },
-      };
-    } else {
-      updateQuery = { $addToSet: { downvotes: userId } };
-    }
-
-    const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, {
-      new: true,
+    await requestHandler({
+      url: `/answers/${answerId}/downvote`,
+      method: "put",
+      payload: rest,
     });
-
-    if (!answer) {
-      throw new Error("Answer not found");
-    }
-
     revalidatePath(path);
   } catch (error) {
     console.log(error);

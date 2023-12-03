@@ -1,36 +1,20 @@
-import User from "@/database/user.model";
-import { connectToDatabase } from "./mongoose";
+"use server";
+
 import { GetAllTagsParams, GetTopInteractedTagsParams } from "./shared.types";
-import Tag from "@/database/tag.model";
+import { requestHandler } from "../requestHandler";
 
 export const getTopInteractedTags = async (
   params: GetTopInteractedTagsParams
 ) => {
   try {
-    await connectToDatabase();
-
     const { userId } = params;
+    console.log(params, 123);
+    const response = await requestHandler({
+      url: `/tags/top/${userId}`,
+      method: "get",
+    });
 
-    const user = await User.findById(userId);
-
-    if (!user) {
-      throw new Error(`User does not exist`);
-    }
-
-    return [
-      {
-        _id: "1",
-        name: "React",
-      },
-      {
-        _id: "2",
-        name: "Js",
-      },
-      {
-        _id: "3",
-        name: "DSA",
-      },
-    ];
+    return response.data.data.tags;
   } catch (error) {
     console.log(error);
   }
@@ -38,11 +22,12 @@ export const getTopInteractedTags = async (
 
 export const getAllTags = async (params: GetAllTagsParams) => {
   try {
-    await connectToDatabase();
+    const response = await requestHandler({
+      url: `/tags`,
+      method: "get",
+    });
 
-    const tags = await Tag.find({});
-
-    return { tags };
+    return response.data.data;
   } catch (error) {
     console.log(error);
   }

@@ -1,136 +1,108 @@
-import User from "@/database/user.model";
-import { connectToDatabase } from "./mongoose";
+"use server";
+
 import {
   CreateUserParams,
-  DeleteUserParams,
   GetAllUsersParams,
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
-import Question from "@/database/question.model";
+import { requestHandler } from "../requestHandler";
 
-export const getUserDetails = async (params: any) => {
+export async function getUserDetails(params: any) {
   try {
-    await connectToDatabase();
-
     const { userId } = params;
-    const user = await User.findOne({
-      clerkId: userId,
+    const response = await requestHandler({
+      url: `/users/${userId}`,
+      method: "get",
     });
-    return user;
+
+    return response.data.data.user;
   } catch (error) {
     console.log(error);
   }
-};
+}
 
-export const createUser = async (userData: CreateUserParams) => {
+export async function createUser(userData: CreateUserParams) {
   try {
-    await connectToDatabase();
-    const newUser = await User.create(userData);
+    const user = await requestHandler({
+      url: "/users",
+      method: "post",
+      payload: userData,
+    });
 
-    return newUser;
+    return user.data.data.user;
   } catch (error) {
     console.log(error);
   }
-};
+}
 
-export const updateUser = async (params: UpdateUserParams) => {
+export async function updateUser(params: UpdateUserParams) {
   try {
-    await connectToDatabase();
-
     const { clerkId, updateData, path } = params;
-    await User.findOneAndUpdate({ clerkId }, updateData, {
-      new: true,
+
+    await requestHandler({
+      method: "PUT",
+      payload: updateData,
+      url: `users/${clerkId}`,
     });
 
     revalidatePath(path);
   } catch (error) {
     console.log(error);
   }
-};
+}
 
-export const deleteUser = async (params: DeleteUserParams) => {
-  try {
-    await connectToDatabase();
-
-    const { clerkId } = params;
-    const user = await User.findOneAndDelete({ clerkId });
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    // Delete user from database
-    // Delete questions, answers, comments etc
-
-    // const userQuestionIds = await Question.find({ author: user._id }).distinct(
-    //   "_id"
-    // );
-
-    await Question.deleteMany({ author: user._id });
-    const deletedUser = await Question.findByIdAndDelete(user._id);
-
-    return deletedUser;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getAllUsers = async (params: GetAllUsersParams) => {
-  try {
-    await connectToDatabase();
-    // const {page=1, pageSize=20, filter, searchQuery} = params;
-    const users = await User.find({}).sort({
-      createdAt: -1,
-    });
-
-    return { users };
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// export const getAllUsers = async (params : GetAllUsersParams) => {
+// export async function deleteUser(params: DeleteUserParams) {
 //   try {
 //     await connectToDatabase();
 
-//     const users =
+//     const { clerkId } = params;
+//     const user = await User.findOneAndDelete({ clerkId });
 
+//     if (!user) {
+//       throw new Error("User not found");
+//     }
+
+//     // Delete user from database
+//     // Delete questions, answers, comments etc
+
+//     // const userQuestionIds = await Question.find({ author: user._id }).distinct(
+//     //   "_id"
+//     // );
+
+//     await Question.deleteMany({ author: user._id });
+//     const deletedUser = await Question.findByIdAndDelete(user._id);
+
+//     return deletedUser;
 //   } catch (error) {
 //     console.log(error);
 //   }
 // }
 
+export async function getAllUsers(params: GetAllUsersParams) {
+  try {
+    // const {page=1, pageSize=20, filter, searchQuery} = params;
+    const results = await requestHandler({
+      url: "/users",
+      method: "GET",
+    });
+
+    return { users: results.data.data.users };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
   try {
-    await connectToDatabase();
-
     const { userId, questionId, path } = params;
+    console.log(params, 456);
 
-    const user = await User.findById(userId);
-
-    if (!user) {
-      throw new Error("User not found!");
-    }
-
-    const isQuestionSaved = user.saved.includes(questionId);
-
-    if (isQuestionSaved) {
-      await User.findByIdAndUpdate(
-        userId,
-        { $pull: { saved: questionId } },
-        { new: true }
-      );
-    } else {
-      await User.findByIdAndUpdate(
-        userId,
-        {
-          $addToSet: { saved: questionId },
-        },
-        { new: true }
-      );
-    }
+    await requestHandler({
+      url: `/users/${userId}/save/${questionId}`,
+      method: "put",
+    });
 
     revalidatePath(path);
   } catch (error) {

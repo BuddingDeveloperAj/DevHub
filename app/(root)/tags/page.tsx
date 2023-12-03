@@ -8,7 +8,6 @@ import { getAllTags } from "@/lib/actions/tags.action";
 
 const Tags = async () => {
   const result = (await getAllTags({})) ?? { tags: [] };
-
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Tags</h1>
@@ -27,9 +26,9 @@ const Tags = async () => {
       </div>
       <section className="mt-12 flex flex-wrap justify-start gap-6 max-md:flex-col">
         {result.tags.length > 0 ? (
-          result.tags.map((tag) => (
+          result.tags.map((tag: any) => (
             <Link href={`/tags/${tag._id}`} key={tag._id} className="shadow-md">
-              <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]">
+              <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[240px]">
                 <div className="background-light800_dark400 w-fit rounded-sm px-5 py-1.5 ">
                   <p className="paragraph-semibold text-dark300_light900 capitalize">
                     {tag.name}

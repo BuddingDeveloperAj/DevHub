@@ -1,45 +1,21 @@
 "use server";
 
-import Question from "@/database/question.model";
-import { connectToDatabase } from "./mongoose";
-import Tag from "@/database/tag.model";
+import { revalidatePath } from "next/cache";
 import {
   CreateQuestionParams,
-  GetQuestionByIdParams,
   GetQuestionsParams,
+  GetQuestionByIdParams,
   QuestionVoteParams,
 } from "./shared.types";
-import User from "@/database/user.model";
-import { revalidatePath } from "next/cache";
+import { requestHandler } from "../requestHandler";
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
-    const { title, content, tags, author, path } = params;
-    await connectToDatabase();
-
-    // create a new question
-    const question = await Question.create({
-      title,
-      content,
-      author,
-    });
-
-    const tagDocuments = [];
-
-    // Searching for tag in DB if found update else create
-    for (const tag of tags) {
-      const existingTag = await Tag.findOneAndUpdate(
-        { name: { $regex: new RegExp(`^${tag}$`, "i") } },
-        { $setOnInsert: { name: tag }, $push: { questions: question._id } },
-        { upsert: true, new: true }
-      );
-
-      tagDocuments.push(existingTag._id);
-    }
-
-    // Updating the tags into the question
-    await Question.findByIdAndUpdate(question._id, {
-      $push: { tags: { $each: tagDocuments } },
+    const { path, ...rest } = params;
+    await requestHandler({
+      url: "/questions",
+      method: "POST",
+      payload: rest,
     });
 
     revalidatePath(path);
@@ -50,13 +26,11 @@ export async function createQuestion(params: CreateQuestionParams) {
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
-    await connectToDatabase();
-    const questions = await Question.find({})
-      .populate({ path: "tags", model: Tag })
-      .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
-
-    return { questions };
+    const response = await requestHandler({
+      url: "/questions",
+      method: "get",
+    });
+    return response.data.data;
   } catch (error) {
     console.log(error);
   }
@@ -64,18 +38,12 @@ export async function getQuestions(params: GetQuestionsParams) {
 
 export async function getQuestionById(params: GetQuestionByIdParams) {
   try {
-    await connectToDatabase();
-
     const questionId = params.questionId;
-    const question = await Question.findById({ _id: questionId })
-      .populate({ path: "tags", model: Tag, select: "_id name" })
-      .populate({
-        path: "author",
-        model: User,
-        select: "_id name clerkId picture",
-      });
-
-    return question;
+    const response = await requestHandler({
+      url: `/questions/${questionId}`,
+      method: "GET",
+    });
+    return response.data.data.question;
   } catch (error) {
     console.log(error);
   }
@@ -83,31 +51,13 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
 
 export async function upvoteQuestion(params: QuestionVoteParams) {
   try {
-    await connectToDatabase();
+    const { questionId, path, ...rest } = params;
 
-    const { questionId, userId, hasDownvoted, hasUpvoted, path } = params;
-
-    let updateQuery = {};
-
-    if (hasUpvoted) {
-      updateQuery = { $pull: { upvotes: userId } };
-    } else if (hasDownvoted) {
-      updateQuery = {
-        $pull: { downvotes: userId },
-        $push: { upvotes: userId },
-      };
-    } else {
-      updateQuery = { $addToSet: { upvotes: userId } };
-    }
-
-    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
-      new: true,
+    await requestHandler({
+      url: `/questions/${questionId}/upvote`,
+      method: "put",
+      payload: rest,
     });
-
-    if (!question) {
-      throw new Error("Question not found");
-    }
-
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -116,30 +66,13 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
 
 export async function downvoteQuestion(params: QuestionVoteParams) {
   try {
-    await connectToDatabase();
+    const { questionId, path, ...rest } = params;
 
-    const { questionId, userId, hasDownvoted, hasUpvoted, path } = params;
-
-    let updateQuery = {};
-
-    if (hasDownvoted) {
-      updateQuery = { $pull: { downvotes: userId } };
-    } else if (hasUpvoted) {
-      updateQuery = {
-        $pull: { upvotes: userId },
-        $push: { downvotes: userId },
-      };
-    } else {
-      updateQuery = { $addToSet: { downvotes: userId } };
-    }
-
-    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
-      new: true,
+    await requestHandler({
+      url: `/questions/${questionId}/downvote`,
+      method: "put",
+      payload: rest,
     });
-
-    if (!question) {
-      throw new Error("Question not found");
-    }
 
     revalidatePath(path);
   } catch (error) {
