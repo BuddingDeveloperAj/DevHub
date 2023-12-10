@@ -194,7 +194,7 @@ const Question = ({ user, type, questionDetails }: Props) => {
                       "body { font-size:16px; font-family:Inter; } ",
                     placeholder: "Elaborate your question here.",
                     skin: mode === "dark" ? "oxide-dark" : "oxide",
-                    content_css: mode === "dark" ? "dark" : "light",
+                    content_css: mode === "dark" ? "dark" : "",
                   }}
                   initialValue={editorContent}
                   onBlur={field.onBlur}

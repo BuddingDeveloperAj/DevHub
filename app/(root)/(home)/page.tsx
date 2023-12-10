@@ -7,9 +7,12 @@ import HomeFilters from "@/components/Home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/shared/cards/QuestionCard";
 import { getQuestions } from "@/lib/actions/question.action";
+import { SearchParamsProps } from "@/types";
 
-export default async function Home() {
-  const result = await getQuestions({});
+export default async function Home({ searchParams }: SearchParamsProps) {
+  const result = await getQuestions({
+    searchQuery: searchParams.q,
+  });
   const questions = result?.questions ?? [];
 
   return (
@@ -25,7 +28,7 @@ export default async function Home() {
       <div className="mt-5 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
           imgSrc="/assets/icons/search.svg"
-          placeholder=" Search for Questions"
+          placeholder="Search for Questions"
           iconPosition="left"
           route="/"
           otherClasses="flex-1"
