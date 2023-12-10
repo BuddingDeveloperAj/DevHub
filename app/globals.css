@@ -49,7 +49,7 @@ body {
   }
 
   .btn-secondary {
-    @apply bg-light-800 dark:bg-dark-400 !important;
+    @apply bg-light-800 dark:bg-dark-400 hover:bg-orange-100 dark:hover:bg-gray-800 !important;
   }
 
   .btn-tertiary {

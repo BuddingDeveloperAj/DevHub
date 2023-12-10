@@ -11,7 +11,7 @@ import Votes from "./Votes";
 interface Props {
   questionId: string;
   totalAnswers: number;
-  userId: string;
+  userId?: string;
   page?: number;
   filter?: number;
 }
@@ -29,7 +29,7 @@ const AllAnswers = async (params: Props) => {
         <Filter filters={AnswerFilters} />
       </div>
       <div>
-        {result.answers.map((answer) => {
+        {result.answers.map((answer: any) => {
           return (
             <article className="light-border border-b py-10" key={answer._id}>
               <div className="flex justify-between">
@@ -59,10 +59,16 @@ const AllAnswers = async (params: Props) => {
                   type="answer"
                   itemId={JSON.stringify(answer._id)}
                   userId={userId}
-                  hasUpvoted={answer.upvotes.includes(JSON.parse(userId))}
+                  hasUpvoted={
+                    userId ? answer.upvotes.includes(JSON.parse(userId)) : false
+                  }
                   upvotes={answer.upvotes.length}
                   downvotes={answer.downvotes.length}
-                  hasDownvoted={answer.downvotes.includes(JSON.parse(userId))}
+                  hasDownvoted={
+                    userId
+                      ? answer.downvotes.includes(JSON.parse(userId))
+                      : false
+                  }
                 />
               </div>
               <div className="text-dark200_light900">

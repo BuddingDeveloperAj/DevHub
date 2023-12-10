@@ -114,11 +114,12 @@ const Answer = ({ authorId, questionId }: Props) => {
                     // @ts-ignore
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     init={{
+                      toolbar_mode: "sliding",
                       menubar: false,
                       plugins:
-                        "anchor autolink codesample emoticons image link lists media  table visualblocks",
+                        "autolink codesample emoticons image link media  table visualblocks",
                       toolbar:
-                        "undo redo | blocks codesample fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons ",
+                        "undo redo blocks codesample fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons ",
                       content_style:
                         "body { font-size:16px; font-family:Inter; } ",
                       placeholder: "Elaborate your question here.",

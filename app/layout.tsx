@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   developers, access valuable resources, engage in collaborative projects, and stay updated on the latest 
   trends, tools, and tech news.`,
   icons: {
-    icon: "/assets/images/site-logo.svg",
+    icon: "/assets/images/devhubLogo.svg",
   },
 };
 

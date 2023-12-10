@@ -19,24 +19,28 @@ import { z } from "zod";
 import { questionSchema } from "@/lib/validation";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-import { createQuestion } from "@/lib/actions/question.action";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
+interface Props {
+  user: string;
+  type?: string;
+  questionDetails?: string;
+}
 
-const type: string = "edit";
-
-const Question = ({ user }: { user: string }) => {
+const Question = ({ user, type, questionDetails }: Props) => {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
+  const parsedQuesitonDetails = JSON.parse(questionDetails || "{}");
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
-      title: "",
-      explanation: "",
-      tags: [],
+      title: parsedQuesitonDetails?.title ?? "",
+      explanation: parsedQuesitonDetails?.content ?? "",
+      tags: parsedQuesitonDetails?.tags?.map((x: any) => x.name) ?? [],
     },
   });
 
@@ -44,7 +48,8 @@ const Question = ({ user }: { user: string }) => {
   const [editorContent, setEditorContent] = useState("");
 
   const toggleMode = () => {
-    setEditorKey((prevKey) => prevKey + 1); // Increment key to force re-render
+    setEditorKey((prevKey) => prevKey + 1);
+    // Increment key to force re-render
   };
 
   // Update editor content when it changes
@@ -60,17 +65,26 @@ const Question = ({ user }: { user: string }) => {
   }, [mode]);
 
   async function onSubmit(values: z.infer<typeof questionSchema>) {
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
-      await createQuestion({
-        title: values.title,
-        content: values.explanation,
-        tags: values.tags,
-        author: JSON.parse(user),
-        path: pathname,
-      });
-
-      router.push("/");
+      if (type === "edit") {
+        await editQuestion({
+          questionId: parsedQuesitonDetails._id,
+          title: values.title,
+          content: values.explanation,
+          path: pathname,
+        });
+        router.push(`/question/${parsedQuesitonDetails._id}`);
+      } else {
+        await createQuestion({
+          title: values.title,
+          content: values.explanation,
+          tags: values.tags,
+          author: JSON.parse(user),
+          path: pathname,
+        });
+        router.push("/");
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -205,6 +219,7 @@ const Question = ({ user }: { user: string }) => {
                 <>
                   <Input
                     onKeyDown={(e) => handleKeyDown(e, field)}
+                    disabled={type === "edit"}
                     className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                     placeholder=" Add tags..."
                   />
@@ -216,14 +231,16 @@ const Question = ({ user }: { user: string }) => {
                           className="subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize"
                         >
                           {tag}
-                          <Image
-                            src="/assets/icons/close.svg"
-                            alt="close icon"
-                            width={12}
-                            height={12}
-                            onClick={() => handleTagRemover(tag, field)}
-                            className="cursor-pointer object-contain invert-0 dark:invert"
-                          />
+                          {type !== "edit" && (
+                            <Image
+                              src="/assets/icons/close.svg"
+                              alt="close icon"
+                              width={12}
+                              height={12}
+                              onClick={() => handleTagRemover(tag, field)}
+                              className="cursor-pointer object-contain invert-0 dark:invert"
+                            />
+                          )}
                         </Badge>
                       ))}
                     </div>

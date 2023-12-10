@@ -19,7 +19,6 @@ const page = async ({ params }: any) => {
 
   if (clerkId) {
     user = await getUserDetails({ userId: clerkId });
-    console.log(user);
   }
 
   return (
@@ -44,12 +43,12 @@ const page = async ({ params }: any) => {
           <Votes
             type="question"
             itemId={JSON.stringify(result._id)}
-            userId={JSON.stringify(user._id)}
+            userId={user ? JSON.stringify(user?._id) : undefined}
             upvotes={result.upvotes.length}
-            hasUpvoted={result.upvotes.includes(user._id)}
+            hasUpvoted={result.upvotes.includes(user?._id)}
             downvotes={result.downvotes.length}
-            hasDownvoted={result.downvotes.includes(user._id)}
-            hasSaved={user.saved.includes(result._id)}
+            hasDownvoted={result.downvotes.includes(user?._id)}
+            hasSaved={user?.saved?.includes(result._id)}
           />
         </div>
         <h1 className="h2-semibold text-dark200_light900 mt-3.5 self-start">
@@ -67,7 +66,7 @@ const page = async ({ params }: any) => {
         <Metric
           imgUrl="/assets/icons/eye.svg"
           alt="Views"
-          value={formatNumber(result.views.length)}
+          value={formatNumber(result.views)}
           title=" Views"
           textStyles="small-medium text-dark400_light800"
         />
@@ -103,7 +102,7 @@ const page = async ({ params }: any) => {
       <div>
         <AllAnswers
           questionId={JSON.stringify(result?._id)}
-          userId={JSON.stringify(user?._id)}
+          userId={user ? JSON.stringify(user?._id) : undefined}
           totalAnswers={result.answers?.length}
         />
       </div>
