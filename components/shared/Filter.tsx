@@ -24,7 +24,6 @@ interface Props {
 const Filter = ({ filters, otherClasses, containerClasses }: Props) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-
   const paramFilter = searchParams.get("filter");
 
   const handleUPdateParams = (value: string) => {
@@ -54,7 +53,11 @@ const Filter = ({ filters, otherClasses, containerClasses }: Props) => {
           <SelectGroup className="background-light900_dark200">
             {filters.map((filter) => (
               <SelectItem
-                className="text-dark300_light700 cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-900"
+                className={`text-dark300_light700 cursor-pointer ${
+                  paramFilter === filter.value
+                    ? "bg-orange-200/50 dark:bg-gray-800/60"
+                    : "hover:bg-orange-100/20 dark:hover:bg-gray-900"
+                }`}
                 key={filter.value}
                 value={filter.value}
               >

@@ -40,7 +40,7 @@ const QuestionCard = ({
   const showActions = clerkId && clerkId === author.clerkId;
 
   const cardContent = (
-    <div className="card-wrapper rounded-[10px] p-9 shadow-xl sm:px-11">
+    <div className="card-wrapper rounded-[10px] p-9 shadow-lg  hover:shadow-gray-100 dark:hover:shadow-gray-800 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
           {formatTime(createdAt)}
