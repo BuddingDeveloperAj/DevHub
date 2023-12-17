@@ -4,18 +4,19 @@ import { getQuestionsByTagId } from "@/lib/actions/tags.action";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import React from "react";
 import { URLProps } from "@/types";
+import Pagination from "@/components/shared/Pagination";
 
 const Page = async ({ params, searchParams }: URLProps) => {
-  const result = (await getQuestionsByTagId({
+  const result = await getQuestionsByTagId({
     tagId: params.id,
-    page: 1,
     searchQuery: searchParams.q,
-  })) ?? { questions: [], tagTitle: "" };
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   return (
     <>
       <h1 className="h1-bold text-dark100_light900 capitalize">
-        {result.tagTitle}
+        {result!.tagTitle}
       </h1>
       <div className="mt-5 w-full">
         <LocalSearchbar
@@ -28,8 +29,8 @@ const Page = async ({ params, searchParams }: URLProps) => {
       </div>
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {result.questions.length > 0 ? (
-          result.questions.map((question: any) => (
+        {result!.questions.length > 0 ? (
+          result!.questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -49,6 +50,17 @@ const Page = async ({ params, searchParams }: URLProps) => {
             link="/ "
             linkTitle="Ask a Question"
           />
+        )}
+      </div>
+      <div className="mt-10">
+        {result?.questions?.length > 0 ? (
+          <Pagination
+            pageNumber={searchParams.page ? +searchParams.page : 1}
+            isNext={result!.isNext ?? false}
+            totalPages={result!.totalPages! ?? 1}
+          />
+        ) : (
+          ""
         )}
       </div>
     </>

@@ -25,7 +25,7 @@ const page = async ({ params, searchParams }: URLProps) => {
             alt="profile pic"
             width={140}
             height={140}
-            className="ml-3 self-center rounded-full object-cover"
+            className="my-auto rounded-full object-cover"
           />
 
           <div className="mt-3">

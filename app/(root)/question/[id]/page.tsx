@@ -12,7 +12,7 @@ import { getUserDetails } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers";
 import Votes from "@/components/shared/Votes";
 
-const page = async ({ params }: any) => {
+const page = async ({ params, searchParams }: any) => {
   const result = await getQuestionById({ questionId: params.id });
   const { userId: clerkId } = auth();
   let user;
@@ -102,6 +102,7 @@ const page = async ({ params }: any) => {
       <div>
         <AllAnswers
           questionId={JSON.stringify(result?._id)}
+          filter={searchParams.filter}
           userId={user ? JSON.stringify(user?._id) : undefined}
           totalAnswers={result.answers?.length}
         />

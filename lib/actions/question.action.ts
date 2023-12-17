@@ -57,7 +57,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     await connectToDatabase();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
     const query: FilterQuery<typeof Question> = {};
 
     if (searchQuery) {
@@ -71,12 +71,37 @@ export async function getQuestions(params: GetQuestionsParams) {
       ];
     }
 
+    let sortOptions = {};
+
+    const toSkip = pageSize * (page - 1);
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+      default:
+        break;
+    }
+
     const questions = await Question.find(query)
+      .skip(toSkip)
+      .limit(pageSize)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
 
-    return { questions };
+    const totalQuestions = await Question.countDocuments(query);
+    const totalPages = Math.ceil(totalQuestions / pageSize);
+
+    const isNext = totalQuestions > toSkip + questions.length;
+
+    return { questions, isNext, totalPages };
   } catch (error) {
     console.log(error);
   }

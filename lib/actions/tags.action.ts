@@ -1,3 +1,5 @@
+"use server";
+
 import User from "@/database/user.model";
 import { connectToDatabase } from "./mongoose";
 import {
@@ -46,7 +48,7 @@ export const getAllTags = async (params: GetAllTagsParams) => {
   try {
     await connectToDatabase();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
 
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
@@ -57,9 +59,38 @@ export const getAllTags = async (params: GetAllTagsParams) => {
       ];
     }
 
-    const tags = await Tag.find(query);
+    let sortOptions = {};
 
-    return { tags };
+    const toSkip = pageSize * (page - 1);
+
+    switch (filter) {
+      case "popular":
+        sortOptions = { questions: -1 };
+        break;
+      case "recent":
+        sortOptions = { createdOn: -1 };
+        break;
+      case "name":
+        sortOptions = { name: 1 };
+        break;
+      case "old":
+        sortOptions = { createdOn: 1 };
+        break;
+      default:
+        break;
+    }
+
+    const tags = await Tag.find(query)
+      .sort(sortOptions)
+      .skip(toSkip)
+      .limit(pageSize);
+
+    const totalTags = await Tag.countDocuments(query);
+    const totalPages = Math.ceil(totalTags / pageSize);
+
+    const isNext = totalTags > toSkip + tags.length;
+
+    return { tags, totalPages, isNext };
   } catch (error) {
     console.log(error);
   }
@@ -71,11 +102,40 @@ export const getQuestionsByTagId = async (
   try {
     await connectToDatabase();
 
-    const { tagId, searchQuery } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 2 } = params;
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
+    const toSkip = pageSize * (page - 1);
 
     const tag = await Tag.findOne(tagFilter).populate({
+      path: "questions",
+      model: Question,
+      match: searchQuery
+        ? { title: { $regex: searchQuery, $options: "i" } }
+        : {},
+      options: {
+        sort: { createdAt: -1 },
+        skip: toSkip,
+        limit: pageSize,
+      },
+      populate: [
+        {
+          path: "tags",
+          model: Tag,
+          select: "_id name",
+        },
+        {
+          path: "author",
+          model: User,
+          select: "_id clerkId name picture",
+        },
+      ],
+    });
+    if (!tag) {
+      throw new Error("Tag not found");
+    }
+
+    const tagDetails = await Tag.findOne(tagFilter).populate({
       path: "questions",
       model: Question,
       match: searchQuery
@@ -97,15 +157,19 @@ export const getQuestionsByTagId = async (
         },
       ],
     });
-    if (!tag) {
-      throw new Error("Tag not found");
-    }
+    const totalQuestions = tagDetails.questions.length;
 
+    const totalPages = Math.ceil(totalQuestions / pageSize);
     const questions = tag.questions;
+
+    const isNext = totalQuestions > toSkip + questions.length;
+    console.log(totalPages, totalQuestions, questions.length, toSkip);
 
     return {
       tagTitle: tag.name,
       questions,
+      isNext,
+      totalPages,
     };
   } catch (error) {
     console.log(error);

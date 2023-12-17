@@ -11,11 +11,11 @@ const Navbar = () => {
     <nav className="flex-between background-light900_dark200 fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
       <Link href="/" className="flex items-center gap-1">
         <Image
-          src="/assets/images/devhubLogo.svg"
+          src="/assets/images/devhub_logo.svg"
           width={40}
           height={40}
           alt="DevHub"
-          className="rounded-full dark:bg-white"
+          className="rounded-full"
         ></Image>
         <p className=" h1-bold px-2 text-dark-100 dark:text-light-900 max-sm:hidden">
           Dev<span className="text-primary-500">Hub</span>

@@ -69,9 +69,9 @@ const MobileNav = () => {
       >
         <Link href="/" className="flex items-center gap-1">
           <Image
-            src="/assets/images/devhubLogo.svg"
-            width={23}
-            height={23}
+            src="/assets/images/devhub_logo.svg"
+            width={30}
+            height={30}
             alt="DevHub"
           />
           <p className="h2-bold text-dark100_light900 pl-2">

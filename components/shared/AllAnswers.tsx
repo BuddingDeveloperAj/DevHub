@@ -13,12 +13,15 @@ interface Props {
   totalAnswers: number;
   userId?: string;
   page?: number;
-  filter?: number;
+  filter?: string;
 }
 
 const AllAnswers = async (params: Props) => {
   const { questionId, userId } = params;
-  const result = (await getAnswers({ questionId: JSON.parse(questionId) })) ?? {
+  const result = (await getAnswers({
+    questionId: JSON.parse(questionId),
+    sortBy: params.filter,
+  })) ?? {
     answers: [],
   };
 

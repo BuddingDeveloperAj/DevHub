@@ -6,11 +6,14 @@ import NoResult from "@/components/shared/NoResult";
 import Link from "next/link";
 import { getAllTags } from "@/lib/actions/tags.action";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/Pagination";
 
 const Tags = async ({ searchParams }: SearchParamsProps) => {
-  const result = (await getAllTags({
+  const result = await getAllTags({
     searchQuery: searchParams.q,
-  })) ?? { tags: [] };
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   return (
     <>
@@ -28,11 +31,15 @@ const Tags = async ({ searchParams }: SearchParamsProps) => {
           otherClasses="min-h-[56px] sm:min-w-[170px]"
         />
       </div>
-      <section className="mt-12 flex flex-wrap justify-start gap-6 max-md:flex-col">
-        {result.tags.length > 0 ? (
-          result.tags.map((tag) => (
-            <Link href={`/tags/${tag._id}`} key={tag._id} className="shadow-md">
-              <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]">
+      <section className="mt-12 flex flex-wrap justify-start gap-4 max-md:flex-col">
+        {result!.tags.length > 0 ? (
+          result!.tags.map((tag) => (
+            <Link
+              href={`/tags/${tag._id}`}
+              key={tag._id}
+              className="rounded-2xl shadow-lg hover:shadow-orange-100 dark:hover:shadow-gray-800"
+            >
+              <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[240px]">
                 <div className="background-light800_dark400 w-fit rounded-sm px-5 py-1.5 ">
                   <p className="paragraph-semibold text-dark300_light900 capitalize">
                     {tag.name}
@@ -56,6 +63,17 @@ const Tags = async ({ searchParams }: SearchParamsProps) => {
           />
         )}
       </section>
+      <div className="mt-10">
+        {result!.tags?.length > 0 ? (
+          <Pagination
+            pageNumber={searchParams.page ? +searchParams.page : 1}
+            isNext={result!.isNext ?? false}
+            totalPages={result!.totalPages ?? 1}
+          />
+        ) : (
+          ""
+        )}
+      </div>
     </>
   );
 };

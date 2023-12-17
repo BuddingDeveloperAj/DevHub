@@ -24,11 +24,8 @@ const StatsCard = ({ imgUrl, value, title }: StatsCardProps) => {
         height={50}
       />
       <div>
-        <p className="paragraph-semibold text-dark200_light900 text-center">
-          {value}
-        </p>
+        <p className="paragraph-semibold text-dark200_light900">{value}</p>
         <p className="body-medium text-dark400_light700">{title}</p>
-        <p></p>
       </div>
     </div>
   );

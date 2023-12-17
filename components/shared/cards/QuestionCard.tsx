@@ -39,7 +39,7 @@ const QuestionCard = ({
 }: QuestionProps) => {
   const showActions = clerkId && clerkId === author.clerkId;
 
-  return (
+  const cardContent = (
     <div className="card-wrapper rounded-[10px] p-9 shadow-xl sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
@@ -97,6 +97,8 @@ const QuestionCard = ({
       </div>
     </div>
   );
+
+  return <>{cardContent}</>;
 };
 
 export default QuestionCard;
