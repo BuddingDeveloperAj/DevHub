@@ -5,6 +5,11 @@ import React from "react";
 interface Props {
   totalAnswers: number;
   totalQuestions: number;
+  badgeCounts: {
+    GOLD: number;
+    SILVER: number;
+    BRONZE: number;
+  };
 }
 
 interface StatsCardProps {
@@ -31,7 +36,7 @@ const StatsCard = ({ imgUrl, value, title }: StatsCardProps) => {
   );
 };
 
-const Stats = ({ totalAnswers, totalQuestions }: Props) => {
+const Stats = ({ totalAnswers, totalQuestions, badgeCounts }: Props) => {
   return (
     <div className="mt-10">
       <h4 className="h3-semibold text-dark200_light900">Stats</h4>
@@ -52,17 +57,17 @@ const Stats = ({ totalAnswers, totalQuestions }: Props) => {
         </div>
         <StatsCard
           imgUrl="/assets/icons/gold-medal.svg"
-          value={0}
+          value={badgeCounts.GOLD}
           title="Gold Badges"
         />
         <StatsCard
           imgUrl="/assets/icons/silver-medal.svg"
-          value={0}
+          value={badgeCounts.SILVER}
           title="Silver Badges"
         />
         <StatsCard
           imgUrl="/assets/icons/bronze-medal.svg"
-          value={0}
+          value={badgeCounts.BRONZE}
           title="Bronze Badges"
         />
       </div>
