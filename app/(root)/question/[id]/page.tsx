@@ -96,6 +96,7 @@ const page = async ({ params, searchParams }: any) => {
           <Answer
             authorId={JSON.stringify(user?._id)}
             questionId={JSON.stringify(result?._id)}
+            question={result?.title}
           />
         </SignedIn>
       </div>
