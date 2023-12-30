@@ -24,7 +24,7 @@ const JobCard = (props: JobProps) => {
           width={100}
           height={100}
           alt="company logo"
-          className="bg-orange-300 p-5 dark:bg-dark-400"
+          className="rounded-md bg-orange-300 p-5 dark:bg-dark-400"
         />
 
         <div>
@@ -41,11 +41,11 @@ const JobCard = (props: JobProps) => {
         </div>
       </div>
       <div className="flex items-start justify-start">
-        <Button className="primary-gradient w-fit !text-light-900">
-          <a target="_blank" href={jobUrl} className="w-full">
+        <a target="_blank" href={jobUrl} className="w-full">
+          <Button className="primary-gradient w-fit !text-light-900">
             Apply for Job
-          </a>
-        </Button>
+          </Button>
+        </a>
       </div>
     </div>
   );

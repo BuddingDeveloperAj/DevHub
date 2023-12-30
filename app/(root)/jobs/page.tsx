@@ -12,12 +12,12 @@ import LocationSearchbar from "@/components/shared/search/LocationSearchbar";
 import JobCard from "@/components/shared/cards/JobCard";
 import { getJobs } from "@/lib/actions/job.action";
 
-export const metadata: Metadata = {
-  title: "Your Saved Content | DevHub",
-  description: `Access your saved posts, answers, and questions at DevHub. Easily retrieve and organize your 
-  curated content to continue learning and refining your projects.`,
+export const jobMetadata: Metadata = {
+  title: "Find Jobs | DevHub",
+  description: `Explore and apply for diverse job opportunities on DevHub. Discover roles tailored to your 
+    skills and interests, and take the next step in your career journey.`,
 };
-
+console.log(process.env.GOOGLE_API_KEY);
 export default async function Jobs({ searchParams }: SearchParamsProps) {
   const jobs = await getJobs({
     keyword: searchParams.q || "software engineer",
@@ -88,17 +88,6 @@ export default async function Jobs({ searchParams }: SearchParamsProps) {
           linkTitle="Ask a Question"
         />
       )}
-      {/* <div className="mt-10">
-        {questions.length > 0 ? (
-          <Pagination
-            pageNumber={searchParams.page ? +searchParams.page : 1}
-            isNext={result?.isNext ?? false}
-            totalPages={result?.totalPages! ?? 1}
-          />
-        ) : (
-          ""
-        )}
-      </div> */}
     </>
   );
 }

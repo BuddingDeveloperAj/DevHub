@@ -11,7 +11,7 @@ const Navbar = () => {
     <nav className="flex-between background-light900_dark200 fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
       <Link href="/" className="flex items-center gap-1">
         <Image
-          src="/assets/images/devhub_logo.svg"
+          src="/assets/images/devHub_logo.svg"
           width={40}
           height={40}
           alt="DevHub"

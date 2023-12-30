@@ -60,8 +60,9 @@ const LocationSearchbar = ({
     longitude: number;
   }) => {
     const res = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=AIzaSyCgZCfaiVwow01B3UA5-PE_6AVzfipwgP4`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`
     );
+
     const data = await res.json();
     console.log(data);
     for (const location of data.results) {
@@ -78,10 +79,13 @@ const LocationSearchbar = ({
   };
 
   useEffect(() => {
+    console.log("here");
+    console.log("geolocation" in navigator);
     if ("geolocation" in navigator) {
       // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const { latitude, longitude } = coords;
+        console.log(coords);
         // @ts-ignore
         setLocation({ latitude, longitude });
       });
@@ -89,9 +93,12 @@ const LocationSearchbar = ({
   }, []);
 
   useEffect(() => {
+    console.log(1, process.env.GOOGLE_API_KEY);
     if (location && !search) {
+      console.log(2);
       fetchApiData(location);
     }
+    console.log(location, search, location && !search);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
