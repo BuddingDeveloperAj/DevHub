@@ -214,3 +214,11 @@ code {
 .scroll-container::-webkit-scrollbar {
   display: none; /* Hides the scrollbar in WebKit based browsers */
 }
+
+.background-div {
+  width: 100%; /* Adjust as needed */
+  height: 300px; /* Adjust as needed */
+  background-image: url("../public/assets/images/authbg.svg");
+  background-size: cover; /* Adjust the background image size */
+  background-position: center; /* Adjust the background image position */
+}
