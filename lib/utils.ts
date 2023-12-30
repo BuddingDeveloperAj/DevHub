@@ -107,3 +107,20 @@ export const assignBadges = (params: BadgeParams) => {
 
   return badgeCounts;
 };
+
+export const generateAITagDescription = async (tagname: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+      {
+        method: "POST",
+        body: JSON.stringify({ query: tagname, isQuestion: false }),
+      }
+    );
+
+    const aiAnswer = await response.json();
+    return aiAnswer.reply;
+  } catch (error) {
+    return tagname;
+  }
+};

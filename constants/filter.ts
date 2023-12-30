@@ -39,3 +39,27 @@ export const GlobalSearchFilters = [
   { name: "User", value: "user" },
   { name: "Tag", value: "tag" },
 ];
+
+export const JobsLocationTypeFilters = [
+  { name: "Remote", value: "remote" },
+  { name: "On Site", value: "onsite" },
+  { name: "Hybrid", value: "hybrid" },
+];
+
+export const JobsExperienceFilters = [
+  { name: "Internship", value: "internship" },
+  { name: "Entry level", value: "entry level" },
+  { name: "Associate", value: "associate" },
+  { name: "Mid-Senior level", value: "mid senior level" },
+  { name: "Director", value: "director" },
+  { name: "Executive", value: "executive" },
+];
+
+export const JobTypesFilter = [
+  { name: "Full Time", value: "full time" },
+  { name: "Part Time", value: "part time" },
+  { name: "Contract", value: "contract" },
+  { name: "Temporary", value: "temporary" },
+  { name: "Volunteer", value: "volunteer" },
+  { name: "Internship", value: "internship" },
+];

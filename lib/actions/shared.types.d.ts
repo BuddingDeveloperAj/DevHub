@@ -1,6 +1,14 @@
 import { Schema } from "mongoose";
 import { IUser } from "@/mongodb";
 
+export interface GetJobsParams {
+  keyword: string;
+  location?: string;
+  jobType?: string;
+  locationType?: string;
+  experience?: string;
+}
+
 export interface CreateAnswerParams {
   content: string;
   author: string; // User ID

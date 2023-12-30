@@ -17,6 +17,7 @@ import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.model";
 import Interaction from "@/database/interaction.model";
 import { FilterQuery } from "mongoose";
+import { generateAITagDescription } from "../utils";
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
@@ -34,16 +35,20 @@ export async function createQuestion(params: CreateQuestionParams) {
 
     // Searching for tag in DB if found update else create
     for (const tag of tags) {
-      const existingTag = await Tag.findOneAndUpdate(
-        { name: { $regex: new RegExp(`^${tag}$`, "i") } },
-        { $setOnInsert: { name: tag }, $push: { questions: question._id } },
-        { upsert: true, new: true }
-      );
+      let existingTag = await Tag.findOne({
+        name: { $regex: new RegExp(`^${tag}$`, "i") },
+      });
+
+      if (!existingTag) {
+        const description = await generateAITagDescription(tag);
+        existingTag = await Tag.create({ name: tag, description });
+      }
+
+      existingTag.questions.push(question._id);
+      await existingTag.save();
 
       tagDocuments.push(existingTag._id);
     }
-
-    console.log(tagDocuments);
 
     // Updating the tags into the question
     await Question.findByIdAndUpdate(question._id, {
