@@ -17,17 +17,17 @@ interface JobProps {
 const JobCard = (props: JobProps) => {
   const { name, jobUrl, company, location, date } = props;
   return (
-    <div className="card-wrapper flex min-h-[180px] items-center justify-between gap-10 rounded-[10px] p-9 shadow-md hover:shadow-lg dark:hover:shadow-gray-900 max-sm:flex-col">
-      <div className="flex gap-10">
+    <div className="card-wrapper flex min-h-[180px] items-center justify-between gap-10 rounded-[10px] p-9 shadow-md hover:shadow-lg dark:hover:shadow-gray-900 max-md:flex-col">
+      <div className="flex w-full justify-start gap-10">
         <Image
           src="/assets/icons/suitcase.svg"
           width={100}
           height={100}
           alt="company logo"
-          className="rounded-md bg-orange-300 p-5 dark:bg-dark-400"
+          className="rounded-md bg-orange-300 p-5 dark:bg-dark-400 max-sm:hidden"
         />
 
-        <div>
+        <div className="w-full">
           <span className="subtle-regular text-dark400_light700 line-clamp-1 flex">
             Posted {formatTime(moment(date).toDate())}
           </span>

@@ -46,7 +46,7 @@ export default async function Jobs({ searchParams }: SearchParamsProps) {
           otherClasses="flex-1"
         />
       </div>
-      <div className="mt-5 flex justify-start gap-5 max-sm:flex-col sm:items-center">
+      <div className="mt-5 flex flex-wrap justify-start gap-5 max-sm:flex-col sm:items-center">
         <Filter
           filterId="location_type"
           placeholder="Select Location Type"

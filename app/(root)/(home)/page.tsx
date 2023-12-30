@@ -52,15 +52,18 @@ export default async function Home({ searchParams }: SearchParamsProps) {
 
   return (
     <>
-      <div className="flex w-full flex-col-reverse justify-between sm:flex-row sm:items-center">
+      <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900">All Questions</h1>
-        <Link href="/ask-question" className="flex justify-end max-sm:w-full">
-          <Button className="primary-gradient min-h-[46px] px-4 py-3 !text-light-900 ">
+        <Link
+          href="/ask-question"
+          className="flex justify-end max-sm:my-2 max-sm:w-full"
+        >
+          <Button className="primary-gradient min-h-[46px] w-full px-4 py-3 !text-light-900 ">
             Ask a Question
           </Button>
         </Link>
       </div>
-      <div className="mt-5 flex justify-between gap-5 max-sm:flex-col sm:items-center">
+      <div className="mt-5 flex flex-wrap justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
           imgSrc="/assets/icons/search.svg"
           placeholder="Search for Questions"
@@ -71,7 +74,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
         <Filter
           filters={HomePageFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
-          containerClasses="hidden max-md:flex"
+          containerClasses="hidden max-md:block"
         />
       </div>
       <HomeFilters />

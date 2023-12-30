@@ -40,14 +40,14 @@ const QuestionCard = ({
   const showActions = clerkId && clerkId === author.clerkId;
 
   const cardContent = (
-    <div className="card-wrapper rounded-[10px] p-9 shadow-lg  hover:shadow-gray-100 dark:hover:shadow-gray-800 sm:px-11">
+    <div className="card-wrapper flex-wrap rounded-[10px] p-9 shadow-lg hover:shadow-gray-100 dark:hover:shadow-gray-800 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
           {formatTime(createdAt)}
         </span>
         <div className="flex w-full justify-between gap-5">
           <Link href={`/question/${_id}`}>
-            <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 max-sm:line-clamp-2">
+            <h3 className="base-semibold text-dark200_light900 line-clamp-1 max-w-md max-lg:max-w-xs">
               {title}
             </h3>
           </Link>
@@ -63,7 +63,7 @@ const QuestionCard = ({
           <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
         ))}
       </div>
-      <div className="flex-between mt-6">
+      <div className="mt-6 flex w-full flex-wrap justify-between gap-3">
         <Metric
           imgUrl={author.picture}
           alt="user"
