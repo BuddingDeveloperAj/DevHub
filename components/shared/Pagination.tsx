@@ -21,7 +21,7 @@ const Pagination = ({ pageNumber, isNext, totalPages }: Props) => {
     setInputPageValue(pageNumber);
   }, [pageNumber]);
 
-  const handleEnterPress = (e) => {
+  const handleEnterPress = (e: any) => {
     if (e.key === "Enter" || e.keyCode === 13) {
       const newUrl = formUrlQuery({
         params: searchParams.toString(),
@@ -43,6 +43,7 @@ const Pagination = ({ pageNumber, isNext, totalPages }: Props) => {
     };
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedHandlePagination = useCallback(
     debounce(
       (direction: string) => {
