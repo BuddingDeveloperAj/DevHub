@@ -64,7 +64,6 @@ const LocationSearchbar = ({
     );
 
     const data = await res.json();
-    console.log(data);
     for (const location of data.results) {
       const country = location.address_components.find((x: any) =>
         x.types.includes("country")
@@ -79,13 +78,10 @@ const LocationSearchbar = ({
   };
 
   useEffect(() => {
-    console.log("here");
-    console.log("geolocation" in navigator);
     if ("geolocation" in navigator) {
       // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const { latitude, longitude } = coords;
-        console.log(coords);
         // @ts-ignore
         setLocation({ latitude, longitude });
       });
@@ -93,14 +89,11 @@ const LocationSearchbar = ({
   }, []);
 
   useEffect(() => {
-    console.log(1, process.env.GOOGLE_API_KEY);
     if (location && !search) {
-      console.log(2);
       fetchApiData(location);
     }
-    console.log(location, search, location && !search);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location]);
 
   return (
     <div
