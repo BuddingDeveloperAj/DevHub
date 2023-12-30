@@ -12,12 +12,12 @@ import LocationSearchbar from "@/components/shared/search/LocationSearchbar";
 import JobCard from "@/components/shared/cards/JobCard";
 import { getJobs } from "@/lib/actions/job.action";
 
-export const jobMetadata: Metadata = {
+export const metadata: Metadata = {
   title: "Find Jobs | DevHub",
   description: `Explore and apply for diverse job opportunities on DevHub. Discover roles tailored to your 
     skills and interests, and take the next step in your career journey.`,
 };
-console.log(process.env.GOOGLE_API_KEY);
+
 export default async function Jobs({ searchParams }: SearchParamsProps) {
   const jobs = await getJobs({
     keyword: searchParams.q || "software engineer",
