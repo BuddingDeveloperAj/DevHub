@@ -121,6 +121,7 @@ export const generateAITagDescription = async (tagname: string) => {
     const aiAnswer = await response.json();
     return aiAnswer.reply;
   } catch (error) {
+    console.log(error);
     return tagname;
   }
 };
