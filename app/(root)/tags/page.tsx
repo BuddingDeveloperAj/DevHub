@@ -7,6 +7,13 @@ import Link from "next/link";
 import { getAllTags } from "@/lib/actions/tags.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Explore Tags: Find Relevant Questions | DevHub",
+  description: `Browse through tags on DevHub to discover a range of topics. Click on a tag to explore related 
+  questions, dive deep into discussions, and find valuable insights.`,
+};
 
 const Tags = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllTags({

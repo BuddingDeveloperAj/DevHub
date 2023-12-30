@@ -11,6 +11,14 @@ import ProfileLink from "@/components/shared/ProfileLink";
 import Stats from "@/components/shared/Stats";
 import QuestionTab from "@/components/shared/QuestionTab";
 import AnswerTab from "@/components/shared/AnswerTab";
+import type { Metadata } from "next";
+import LoginHeatMap from "@/components/shared/HeatMap";
+
+export const metadata: Metadata = {
+  title: "Your Developer Profile | DevHub",
+  description: `Your personalized developer profile on DevHub. Showcase your skills, contributions, and 
+  projects. Connect with peers, share insights, and foster meaningful collaborations.`,
+};
 
 const page = async ({ params, searchParams }: URLProps) => {
   const userInfo = await getUserInfo({ userId: params.id });
@@ -82,7 +90,12 @@ const page = async ({ params, searchParams }: URLProps) => {
         totalAnswers={userInfo?.totalAnswers ?? 0}
         badgeCounts={userInfo!.badgeCounts}
       />
-      <div className="mt-10 flex gap-10">
+
+      <div className="mt-5">
+        <LoginHeatMap />
+      </div>
+
+      <div className="mt-6 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1">
             <TabsTrigger className="tab" value="top-posts">

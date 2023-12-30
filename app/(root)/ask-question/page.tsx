@@ -6,7 +6,7 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const page = async () => {
+const Page = async () => {
   const authUser = auth();
   const clerkId = authUser.userId;
 
@@ -26,4 +26,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;

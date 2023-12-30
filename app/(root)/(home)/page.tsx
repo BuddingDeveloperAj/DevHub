@@ -6,16 +6,48 @@ import { HomePageFilters } from "@/constants/filter";
 import HomeFilters from "@/components/Home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/shared/cards/QuestionCard";
-import { getQuestions } from "@/lib/actions/question.action";
+import {
+  getQuestions,
+  getRecommendedQuestions,
+} from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs";
+
+export const metadata: Metadata = {
+  title: "Welcome to DevHub: Your Developer Community Hub",
+  description: `Discover a vibrant developer community at DevHub – your ultimate resource for connecting, learning, 
+  and collaborating. Stay updated on cutting-edge trends, tools, and tech news while growing your skills 
+  alongside fellow developers.`,
+};
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const result = await getQuestions({
-    searchQuery: searchParams.q,
-    filter: searchParams.filter,
-    page: searchParams.page ? +searchParams.page : 1,
-  });
+  let result;
+  const { userId } = auth();
+
+  if (searchParams.filter === "recommended") {
+    if (userId) {
+      result = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1,
+      });
+    } else {
+      result = {
+        questions: [],
+        totalPages: 1,
+        isNext: false,
+      };
+    }
+  } else {
+    result = await getQuestions({
+      searchQuery: searchParams.q,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1,
+    });
+  }
+
   const questions = result?.questions ?? [];
 
   return (
@@ -69,7 +101,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
         )}
       </div>
       <div className="mt-10">
-        {result!.questions?.length > 0 ? (
+        {result && result?.questions?.length > 0 ? (
           <Pagination
             pageNumber={searchParams.page ? +searchParams.page : 1}
             isNext={result?.isNext ?? false}

@@ -102,7 +102,7 @@ export const getQuestionsByTagId = async (
   try {
     await connectToDatabase();
 
-    const { tagId, searchQuery, page = 1, pageSize = 2 } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 10 } = params;
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
     const toSkip = pageSize * (page - 1);
@@ -163,8 +163,6 @@ export const getQuestionsByTagId = async (
     const questions = tag.questions;
 
     const isNext = totalQuestions > toSkip + questions.length;
-    console.log(totalPages, totalQuestions, questions.length, toSkip);
-
     return {
       tagTitle: tag.name,
       questions,

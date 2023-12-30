@@ -91,7 +91,7 @@ const GlobalSearch = () => {
               setIsOpen(false);
             }
           }}
-          className="paragraph-regular no-focus background-light800_darkgradient text-dark400_light700 border-none caret-gray-800 shadow-none outline-none placeholder:text-gray-600 dark:caret-slate-100"
+          className="paragraph-regular no-focus text-dark400_light700 border-none bg-transparent caret-gray-800 shadow-none outline-none placeholder:text-gray-600 dark:caret-slate-100"
         />
       </div>
       {isOpen && <GlobalResult />}

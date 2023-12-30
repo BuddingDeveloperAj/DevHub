@@ -22,6 +22,7 @@ import Image from "next/image";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
+import { toast } from "../ui/use-toast";
 interface Props {
   user: string;
   type?: string;
@@ -74,6 +75,9 @@ const Question = ({ user, type, questionDetails }: Props) => {
           content: values.explanation,
           path: pathname,
         });
+        toast({
+          title: "Question updated successfully",
+        });
         router.push(`/question/${parsedQuesitonDetails._id}`);
       } else {
         await createQuestion({
@@ -83,10 +87,17 @@ const Question = ({ user, type, questionDetails }: Props) => {
           author: JSON.parse(user),
           path: pathname,
         });
+        toast({
+          title: "Question created successfully",
+        });
         router.push("/");
       }
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Oops! something went wrong",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -133,10 +144,9 @@ const Question = ({ user, type, questionDetails }: Props) => {
           tagInput.value = "";
           form.clearErrors("tags");
         }
+      } else {
+        form.trigger();
       }
-      // else {
-      //   form.trigger();
-      // }
     }
   };
 

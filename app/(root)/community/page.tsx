@@ -7,6 +7,13 @@ import Link from "next/link";
 import UserCard from "@/components/shared/cards/UserCard";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Explore the DevHub Community | Find and Connect with Developers",
+  description: `Discover and connect with a diverse community of developers at DevHub. Filter and search 
+  through user profiles to build connections, collaborate, and grow together.`,
+};
 
 const Community = async ({ searchParams }: SearchParamsProps) => {
   const result = (await getAllUsers({

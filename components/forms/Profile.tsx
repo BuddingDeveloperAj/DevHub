@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { profileSchema } from "@/lib/validation";
 import { usePathname, useRouter } from "next/navigation";
 import { updateUser } from "@/lib/actions/user.action";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   clerkId: string;
@@ -55,9 +56,16 @@ const Profile = ({ clerkId, user }: Props) => {
         },
         path: pathname,
       });
+
+      toast({
+        title: "Profile updated successfully",
+      });
       router.back();
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      toast({
+        title: error.message,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -74,7 +82,7 @@ const Profile = ({ clerkId, user }: Props) => {
           name="name"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel className="text-dark300_light700">
+              <FormLabel className="text-dark300_light700 font-semibold">
                 Name <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
@@ -84,7 +92,7 @@ const Profile = ({ clerkId, user }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />
@@ -93,7 +101,7 @@ const Profile = ({ clerkId, user }: Props) => {
           name="username"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel className="text-dark300_light700">
+              <FormLabel className="text-dark300_light700  font-semibold">
                 Username <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
@@ -103,7 +111,7 @@ const Profile = ({ clerkId, user }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />
@@ -112,7 +120,9 @@ const Profile = ({ clerkId, user }: Props) => {
           name="portfolioWebsite"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel className="text-dark300_light700">Portfolio</FormLabel>
+              <FormLabel className="text-dark300_light700  font-semibold">
+                Portfolio
+              </FormLabel>
               <FormControl>
                 <Input
                   type="url"
@@ -121,7 +131,7 @@ const Profile = ({ clerkId, user }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />
@@ -130,7 +140,9 @@ const Profile = ({ clerkId, user }: Props) => {
           name="location"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel className="text-dark300_light700">Location</FormLabel>
+              <FormLabel className="text-dark300_light700 font-semibold">
+                Location
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Where are you from"
@@ -138,7 +150,7 @@ const Profile = ({ clerkId, user }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />
@@ -147,7 +159,9 @@ const Profile = ({ clerkId, user }: Props) => {
           name="bio"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel className="text-dark300_light700">Bio</FormLabel>
+              <FormLabel className="text-dark300_light700 font-semibold">
+                Bio
+              </FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="About you"
@@ -155,7 +169,7 @@ const Profile = ({ clerkId, user }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />

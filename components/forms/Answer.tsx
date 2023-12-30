@@ -18,6 +18,7 @@ import { answerSchema } from "@/lib/validation";
 import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   authorId: string;
@@ -57,8 +58,15 @@ const Answer = ({ authorId, questionId, question }: Props) => {
         editor.setContent("");
       }
       setEditorContent("");
+      toast({
+        title: "Answer submitted successfully",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error while submitting answer",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -102,8 +110,15 @@ const Answer = ({ authorId, questionId, question }: Props) => {
         const editor = editorRef.current as any;
         editor.setContent(formattedAnswer);
       }
+      toast({
+        title: "AI Generated answer successfully",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Oops! Something went wrong",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmittingAI(false);
     }
