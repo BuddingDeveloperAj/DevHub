@@ -82,6 +82,7 @@ export const getAllTags = async (params: GetAllTagsParams) => {
 
     const tags = await Tag.find(query)
       .sort(sortOptions)
+      .collation({ locale: "en", strength: 2 })
       .skip(toSkip)
       .limit(pageSize);
 
