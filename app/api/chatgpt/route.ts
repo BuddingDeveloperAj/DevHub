@@ -31,7 +31,7 @@ export const POST = async (request: Request) => {
               {
                 role: "system",
                 content:
-                  "You are a assistant that provides me short description not more than 20 words",
+                  "You are a assistant that provides me short description not more than 20 words and mostly the words belogs to technology and development",
               },
               {
                 role: "user",
@@ -42,7 +42,6 @@ export const POST = async (request: Request) => {
     });
 
     const responeData = await response.json();
-    console.log(responeData);
     const reply = responeData.choices[0].message.content;
 
     return NextResponse.json({ reply });
