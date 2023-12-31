@@ -83,7 +83,9 @@ const Pagination = ({ pageNumber, isNext, totalPages }: Props) => {
         value={inputPageValue}
         min="1"
         max={totalPages}
-        onChange={(e) => setInputPageValue(+e.target.value)}
+        onChange={(e) =>
+          setInputPageValue(+e.target.value < 0 ? 1 : +e.target.value)
+        }
         onKeyDown={handleEnterPress}
       />
 

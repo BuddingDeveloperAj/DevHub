@@ -45,11 +45,11 @@ const Answer = ({ authorId, questionId, question }: Props) => {
     setIsSubmitting(true);
 
     // Use regular expression to find and replace text within triple backticks
-    // const content = values.answer.replace(/```(.*?)```/gs, "<code>$1</code>");
+    const content = values.answer.replace(/```(.*?)```/gs, "<code>$1</code>");
 
     try {
       await createAnswer({
-        content: values.answer,
+        content,
         author: JSON.parse(authorId),
         question: JSON.parse(questionId),
         path: pathname,
