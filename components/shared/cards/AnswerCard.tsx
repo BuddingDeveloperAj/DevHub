@@ -34,29 +34,31 @@ const AnswerCard = ({
 }: Props) => {
   const showActionButtons = clerkId && clerkId === author.clerkId;
   return (
-    <div className="card-wrapper rounded-[10px] px-11 py-9">
-      <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
-        <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
+    <div className="card-wrapper rounded-[10px] px-11 py-9 max-sm:p-5">
+      <div className="flex flex-col-reverse items-start justify-between gap-5 max-sm:flex-wrap sm:flex-row">
+        <span className="subtle-regular text-dark400_light700 flex sm:hidden">
           {formatTime(createdAt)}
         </span>
-        <div className="flex w-full justify-between gap-5">
+        <div className="flex w-full justify-between gap-5 max-sm:flex-col-reverse">
           <Link href={`/question/${question?._id}/#${_id}`}>
             <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1">
               {question.title}
             </h3>
           </Link>
-          <SignedIn>
-            {showActionButtons && (
-              <EditDeleteActions type="answer" itemId={JSON.stringify(_id)} />
-            )}
-          </SignedIn>
+          <div className="flex justify-end">
+            <SignedIn>
+              {showActionButtons && (
+                <EditDeleteActions type="answer" itemId={JSON.stringify(_id)} />
+              )}
+            </SignedIn>
+          </div>
         </div>
       </div>
-      <p className="text-dark500_light700 my-4 line-clamp-1 text-sm">
-        {convert(answerContent!)}
+      <p className="text-dark500_light700 my-4 text-sm">
+        <span>{convert(answerContent!).slice(0, 50)}</span>
       </p>
 
-      <div className="flex-between mt-5 w-full flex-wrap gap-3">
+      <div className="flex-between mt-5 w-full gap-3 max-sm:flex-col">
         <Metric
           imgUrl={author.picture}
           alt="user avatar"

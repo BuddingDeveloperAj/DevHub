@@ -77,7 +77,7 @@ const page = async ({ params, searchParams }: URLProps) => {
           <SignedIn>
             {clerkId === userInfo?.user.clerkId && (
               <Link href={`/profile/${userInfo.user.clerkId}/edit`}>
-                <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] min-w-[175px] px-4 py-3">
+                <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px]  px-4 py-3">
                   Edit Profile
                 </Button>
               </Link>

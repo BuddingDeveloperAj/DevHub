@@ -26,7 +26,7 @@ const EditDeleteActions = ({ type, itemId }: Props) => {
   };
 
   return (
-    <div className="flex w-1/12 items-center justify-end gap-3">
+    <div className="flex  items-center justify-end gap-3">
       {type === "question" && (
         <Image
           src="/assets/icons/edit.svg"

@@ -45,12 +45,13 @@ const QuestionCard = ({
         <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
           {formatTime(createdAt)}
         </span>
-        <div className="flex w-full justify-between gap-5">
+        <div className="flex w-full justify-between gap-5 max-sm:flex-col-reverse">
           <Link href={`/question/${_id}`}>
             <h3 className="base-semibold text-dark200_light900 line-clamp-1">
               {title}
             </h3>
           </Link>
+          <div className="flex justify-end"></div>
           <SignedIn>
             {showActions && (
               <EditDeleteActions type="question" itemId={JSON.stringify(_id)} />
@@ -73,7 +74,7 @@ const QuestionCard = ({
           isAuthor
           textStyles="body-medium text-dark400_light800"
         />
-        <div className="flex items-center gap-3 max-sm:flex-wrap max-sm:justify-start">
+        <div className="flex items-center gap-3 max-sm:justify-start">
           <Metric
             imgUrl="/assets/icons/like.svg"
             alt="Upvotes"

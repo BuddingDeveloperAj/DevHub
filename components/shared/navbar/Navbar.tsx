@@ -26,7 +26,7 @@ const Navbar = () => {
         <Theme />
         <SignedIn>
           <UserButton
-            afterSignOutUrl="/sign-in"
+            afterSignOutUrl="/"
             appearance={{
               elements: {
                 avatarBox: "h-10 w-10",
