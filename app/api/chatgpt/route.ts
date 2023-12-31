@@ -17,7 +17,7 @@ export const POST = async (request: Request) => {
               {
                 role: "system",
                 content:
-                  "You are a knowledgeable assistant that provides quality information about any work i ask like dictionary",
+                  "You are a knowledgeable assistant that provides quality information also if the answer requires any code block example make it in html format in respective language not in ```",
               },
               {
                 role: "user",
@@ -42,6 +42,7 @@ export const POST = async (request: Request) => {
     });
 
     const responeData = await response.json();
+    console.log(responeData);
     const reply = responeData.choices[0].message.content;
 
     return NextResponse.json({ reply });

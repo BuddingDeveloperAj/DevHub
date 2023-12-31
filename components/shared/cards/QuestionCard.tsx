@@ -47,7 +47,7 @@ const QuestionCard = ({
         </span>
         <div className="flex w-full justify-between gap-5">
           <Link href={`/question/${_id}`}>
-            <h3 className="base-semibold text-dark200_light900 line-clamp-1 max-w-md max-lg:max-w-xs">
+            <h3 className="base-semibold text-dark200_light900 line-clamp-1">
               {title}
             </h3>
           </Link>

@@ -154,8 +154,8 @@ code {
 
 .markdown pre code {
   width: 100%;
-  display: block;
-  /* overflow-x: auto; */
+  display: flex;
+  overflow-x: auto;
 
   color: inherit !important;
 }

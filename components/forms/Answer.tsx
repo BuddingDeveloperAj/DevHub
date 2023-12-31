@@ -43,6 +43,10 @@ const Answer = ({ authorId, questionId, question }: Props) => {
 
   const onSubmit = async (values: z.infer<typeof answerSchema>) => {
     setIsSubmitting(true);
+
+    // Use regular expression to find and replace text within triple backticks
+    // const content = values.answer.replace(/```(.*?)```/gs, "<code>$1</code>");
+
     try {
       await createAnswer({
         content: values.answer,

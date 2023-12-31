@@ -12,7 +12,7 @@ import Stats from "@/components/shared/Stats";
 import QuestionTab from "@/components/shared/QuestionTab";
 import AnswerTab from "@/components/shared/AnswerTab";
 import type { Metadata } from "next";
-import LoginHeatMap from "@/components/shared/HeatMap";
+// import LoginHeatMap from "@/components/shared/HeatMap";
 
 export const metadata: Metadata = {
   title: "Your Developer Profile | DevHub",
@@ -91,9 +91,9 @@ const page = async ({ params, searchParams }: URLProps) => {
         badgeCounts={userInfo!.badgeCounts}
       />
 
-      <div className="mt-5">
+      {/* <div className="mt-5">
         <LoginHeatMap />
-      </div>
+      </div> */}
 
       <div className="mt-6 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
