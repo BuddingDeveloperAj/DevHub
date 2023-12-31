@@ -16,7 +16,7 @@ const AnswerTab = async ({ searchParams, userId, clerkId }: Props) => {
   });
 
   return (
-    <div className="mt-6 flex w-full flex-col gap-6">
+    <div className="mt-5 flex w-full flex-col gap-6">
       {result?.answers.length
         ? result.answers.map((answer) => (
             <AnswerCard

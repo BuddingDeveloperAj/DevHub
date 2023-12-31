@@ -51,7 +51,6 @@ const QuestionCard = ({
               {title}
             </h3>
           </Link>
-          <div className="flex justify-end"></div>
           <SignedIn>
             {showActions && (
               <EditDeleteActions type="question" itemId={JSON.stringify(_id)} />

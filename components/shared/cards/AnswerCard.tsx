@@ -34,7 +34,7 @@ const AnswerCard = ({
 }: Props) => {
   const showActionButtons = clerkId && clerkId === author.clerkId;
   return (
-    <div className="card-wrapper rounded-[10px] px-11 py-9 max-sm:p-5">
+    <div className="card-wrapper flex-wrap rounded-[10px] p-9 shadow-lg hover:shadow-gray-100 dark:hover:shadow-gray-800 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 max-sm:flex-wrap sm:flex-row">
         <span className="subtle-regular text-dark400_light700 flex sm:hidden">
           {formatTime(createdAt)}
@@ -55,10 +55,12 @@ const AnswerCard = ({
         </div>
       </div>
       <p className="text-dark500_light700 my-4 text-sm">
-        <span>{convert(answerContent!).slice(0, 50)}</span>
+        <span className="line-clamp-1">
+          {convert(answerContent!).slice(0, 50)}
+        </span>
       </p>
 
-      <div className="flex-between mt-5 w-full gap-3 max-sm:flex-col">
+      <div className="flex-between mt-5 w-full gap-3 max-sm:flex-col max-sm:items-start">
         <Metric
           imgUrl={author.picture}
           alt="user avatar"
