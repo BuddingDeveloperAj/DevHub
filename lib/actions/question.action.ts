@@ -250,7 +250,6 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
 export async function editQuestion(params: EditQuestionParams) {
   try {
     const { questionId, title, content, path } = params;
-    console.log(params);
     await connectToDatabase();
 
     const question =
