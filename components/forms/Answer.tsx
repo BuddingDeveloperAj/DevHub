@@ -19,6 +19,7 @@ import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
 import { toast } from "../ui/use-toast";
+import { getAiAnswer } from "@/lib/utils";
 
 interface Props {
   authorId: string;
@@ -99,15 +100,7 @@ const Answer = ({ authorId, questionId, question }: Props) => {
     setIsSubmittingAI(true);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
-        {
-          method: "POST",
-          body: JSON.stringify({ query: question }),
-        }
-      );
-
-      const aiAnswer = await response.json();
+      const aiAnswer = await getAiAnswer({ query: question });
       const formattedAnswer = aiAnswer.reply.replace(/\n/g, "<br />");
 
       if (editorRef.current) {

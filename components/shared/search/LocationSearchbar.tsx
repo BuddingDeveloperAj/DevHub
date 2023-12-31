@@ -69,7 +69,6 @@ const LocationSearchbar = ({
         x.types.includes("country")
       );
 
-      console.log(country);
       if (country) {
         setSearch(country.long_name);
         break;

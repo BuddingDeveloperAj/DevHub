@@ -31,7 +31,6 @@ const GlobalResult = () => {
         });
         const parsedResult: Result[] = JSON.parse(res);
         setResult(parsedResult);
-        console.log(parsedResult);
       } catch (error) {
         console.log(error);
       } finally {
@@ -96,7 +95,6 @@ const GlobalResult = () => {
                   <div className="flex flex-col">
                     <p className="body-medium text-dark200_light800 line-clamp-1">
                       {item.title}
-                      {console.log(item._id)}
                     </p>
 
                     <p className="text-light400_light500 mt-1 text-[8px] font-semibold uppercase">
