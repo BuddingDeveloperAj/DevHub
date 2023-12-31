@@ -24,6 +24,7 @@
     "@tinymce/tinymce-react": "^4.3.1",
     "@uiw/react-heat-map": "^2.2.1",
     "@uiw/react-tooltip": "^4.22.3",
+    "@vercel/speed-insights": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "eslint-config-prettier": "^9.0.0",
