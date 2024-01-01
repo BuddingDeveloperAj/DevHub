@@ -124,10 +124,13 @@ const Votes = ({
   };
 
   useEffect(() => {
-    viewQuestion({
-      questionId: JSON.parse(itemId),
-      userId: userId ? JSON.parse(userId) : undefined,
-    });
+    type === "question" &&
+      viewQuestion({
+        questionId: JSON.parse(itemId),
+        userId: userId ? JSON.parse(userId) : undefined,
+      });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemId, userId, pathname, router]);
 
   return (

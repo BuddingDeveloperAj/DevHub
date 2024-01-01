@@ -8,7 +8,7 @@ export const POST = async (request: Request) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + process.env.OPEN_API_KEY,
+        Authorization: "Bearer " + process.env.NEXT_PUBLIC_OPEN_API_KEY,
       },
       body: isQuestion
         ? JSON.stringify({
@@ -17,11 +17,27 @@ export const POST = async (request: Request) => {
               {
                 role: "system",
                 content:
-                  "You are a knowledgeable assistant that provides quality information also if the answer requires any code block example make it in html format in respective language not in ```",
+                  "You are a knowledgeable assistant that provides quality information",
               },
               {
                 role: "user",
-                content: "Tell me " + query,
+                content: `As a knowledgeable assistant, provide accurate information about ${query}. If you require a code example, ensure it's strictly wrapped like below and paste the code in "YOUR CODE HERE":
+
+                <pre class='language-markup'>
+                  <code>
+                    YOUR CODE HERE
+                  </code>
+                </pre>
+                To specify the language for the code block, use the following classes:
+                JavaScript: class='language-javascript'
+                CSS: class='language-css'
+                PHP: class='language-php'
+                Ruby: class='language-ruby'
+                Python: class='language-python'
+                Java: class='language-java'
+                C: class='language-c'
+                C#: class='language-csharp'
+                C++: class='language-cpp'`,
               },
             ],
           })
