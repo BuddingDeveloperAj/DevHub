@@ -21,9 +21,9 @@ const UserCard = async ({ user }: Props) => {
   return (
     <Link
       href={`/profile/${user.clerkId}`}
-      className="w-full rounded-xl shadow-md transition-shadow hover:shadow-xl dark:shadow-slate-900 max-xs:min-w-full  xs:w-[210px]"
+      className="background-light900_dark200 light-border w-full rounded-2xl border shadow-md transition-shadow hover:shadow-xl dark:shadow-slate-900 max-xs:min-w-full xs:w-[210px]"
     >
-      <div className="background-light900_dark200 light-border flex w-full flex-col justify-center rounded-2xl border p-8">
+      <div className="  flex w-full flex-col justify-start p-4">
         <Image
           src={user.picture}
           alt="User Profile"
@@ -40,16 +40,18 @@ const UserCard = async ({ user }: Props) => {
           </p>
         </div>
 
-        <div className="mt-5">
-          {interactedTags?.length ? (
-            <div className="flex justify-center gap-2">
-              {interactedTags?.map((tag) => (
+        <div className="mt-5 w-full">
+          <div className="flex w-full flex-row flex-wrap justify-center gap-2">
+            {interactedTags?.length ? (
+              interactedTags?.map((tag) => (
                 <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
-              ))}
-            </div>
-          ) : (
-            <Badge>No tags yet</Badge>
-          )}
+              ))
+            ) : (
+              <Badge className="subtle-medium text-light400_light500 background-light800_dark300_with_hover rounded-md border-none px-4 py-2 uppercase">
+                No tags yet
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
     </Link>

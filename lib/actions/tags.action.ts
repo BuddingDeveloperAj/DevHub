@@ -10,6 +10,7 @@ import {
 import Tag, { ITag } from "@/database/tag.model";
 import { FilterQuery } from "mongoose";
 import Question from "@/database/question.model";
+import Interaction from "@/database/interaction.model";
 
 export const getTopInteractedTags = async (
   params: GetTopInteractedTagsParams
@@ -25,20 +26,37 @@ export const getTopInteractedTags = async (
       throw new Error(`User does not exist`);
     }
 
-    return [
+    const top3InteractedTags = await Interaction.aggregate([
+      { $match: { user: user._id } }, // Match interactions by user ID
+      { $unwind: "$tags" }, // Unwind the tags array
       {
-        _id: "1",
-        name: "React",
+        $group: {
+          _id: "$tags",
+          count: { $sum: 1 }, // Count occurrences of each tag
+        },
       },
+      { $sort: { count: -1 } }, // Sort by count in descending order
+      { $limit: 3 }, // Limit to the top 3 tags
       {
-        _id: "2",
-        name: "Js",
+        $lookup: {
+          from: "tags", // Replace 'tags' with your actual collection name
+          localField: "_id",
+          foreignField: "_id",
+          as: "tagInfo",
+        },
       },
+      { $unwind: "$tagInfo" },
       {
-        _id: "3",
-        name: "DSA",
+        $project: {
+          _id: "$_id",
+          name: "$tagInfo.name", // Include the name field
+        },
       },
-    ];
+    ]);
+
+    console.log(top3InteractedTags);
+
+    return top3InteractedTags;
   } catch (error) {
     console.log(error);
   }
