@@ -16,9 +16,9 @@ const RightSidebar = async () => {
      flex-col overflow-y-auto border-l p-4 pt-36 shadow-light-300 
      dark:shadow-none max-xl:hidden"
     >
-      <div className="pt-3">
+      <div>
         <h3 className="h2-bold text-dark200_light900">Top Questions</h3>
-        <div className="mt-7 flex w-full flex-col gap-2">
+        <div className="mt-5 flex w-full flex-col gap-2">
           {topQuestions!.map((item) => {
             return (
               <Link
@@ -26,7 +26,7 @@ const RightSidebar = async () => {
                 key={JSON.parse(JSON.stringify(item._id))}
                 className="flex cursor-pointer items-center justify-between gap-7 rounded-lg p-2 hover:bg-orange-50 dark:hover:bg-gray-900"
               >
-                <p className="body-medium text-dark500_light700">
+                <p className="body-medium text-dark500_light700 line-clamp-2">
                   {item.title}
                 </p>
                 <Image
@@ -43,7 +43,7 @@ const RightSidebar = async () => {
       </div>
       <div className="mt-10">
         <h3 className="h2-bold text-dark300_light900">Popular Tags</h3>
-        <div className="mt-7 flex flex-col gap-2">
+        <div className="mt-5 flex flex-col gap-2">
           {popularTags!.map((item) => {
             return (
               <RenderTag
