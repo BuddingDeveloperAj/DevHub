@@ -8,7 +8,7 @@ export const POST = async (request: Request) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + process.env.NEXT_PUBLIC_OPEN_API_KEY,
+        Authorization: "Bearer " + process.env.OPEN_API_KEY,
       },
       body: isQuestion
         ? JSON.stringify({
